@@ -4,29 +4,26 @@ import javafx.geometry.Insets;
 import javafx.geometry.Point3D;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.PointLight;
+import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
-import javafx.scene.shape.Cylinder;
-import javafx.scene.shape.Shape3D;
-import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Translate;
 
 import java.util.Random;
 
 public class Main extends Cube3DApp {
 
     protected void add3dObjects() {
+        Controller3d controller3d = new Controller3d();
         Random r = new Random();
+        Button resetButton = new Button("Reset");
 
         // Box
         Box box = new Box(512, 512, 512);
 
         // Random màu cho box
-        PhongMaterial material = new PhongMaterial(Color.rgb(
-                r.nextInt(256), r.nextInt(256), r.nextInt(256)
-        ));
+        PhongMaterial material = new PhongMaterial(Color.web("4cc9f0"));
         // Set màu cho hộp
         box.setMaterial(material);
 
@@ -35,14 +32,8 @@ public class Main extends Cube3DApp {
         box.setTranslateY(-700);
         box.setTranslateZ(1000);
 
-        // Random giá trị rotate ban đầu theo 3 trục của box
-        int rotX = r.nextInt(10) - 5;
-        int rotY = r.nextInt(10) - 5;
-        int rotZ = r.nextInt(10) - 5;
         int rotSpeed = r.nextInt(3); // Tốc độ quay khi rotate
-
-        box.setRotationAxis(new Point3D(rotX, rotY, rotZ));
-
+        box.setRotationAxis(new Point3D(0, -1, 0));
         box.setRotate(box.getRotate() + rotSpeed);
 
         // Phần camera
@@ -51,8 +42,9 @@ public class Main extends Cube3DApp {
         // Tab hiển thị các thanh Slider
         addControllerTab("Sliders Tab",
 //                Controller3d.translation(cam, 1000),
-                Controller3d.rotation(box, 360),
-                Controller3d.rotationAxis(box, 3)
+                controller3d.rotation(box, 360),
+                controller3d.rotationAxis(box, 3),
+                resetButton
         );
 
         // Căng khoảng cách với bottom của pane 1 đoạn

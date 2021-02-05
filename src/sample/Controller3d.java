@@ -18,6 +18,7 @@ public class Controller3d extends VBox {
     private Slider zs;
     private HBox xBox, yBox, zBox;
 
+    public Controller3d() {}
 
     public Controller3d(String title, Property<Number> x, Property<Number> y, Property<Number> z, double max) {
         xs = new Slider();
@@ -57,8 +58,8 @@ public class Controller3d extends VBox {
 
     // Xử lỹ mỗi khi data của Slider thay đổi
     public Controller3d(String title, double max, Callback<double[], Object> apply) {
-        this(title,max);
-        InvalidationListener l = (o) -> apply.call(new double[] {
+        this(title, max);
+        InvalidationListener l = (o) -> apply.call(new double[]{
                 xs.getValue(), ys.getValue(), zs.getValue()
         });
         xs.valueProperty().addListener(l);
@@ -66,7 +67,7 @@ public class Controller3d extends VBox {
         zs.valueProperty().addListener(l);
     }
 
-    private Controller3d(String title, double max){
+    private Controller3d(String title, double max) {
         xs = new Slider();
         xs.setMax(max);
 
@@ -97,15 +98,15 @@ public class Controller3d extends VBox {
     }
 
     // Di chuyển tọa đổ của Camera
-    public static Controller3d translation(Node n, double limit) {
+    public Controller3d translation(Node n, double limit) {
         return new Controller3d("Coordinates", n.translateXProperty(), n.translateYProperty(), n.translateZProperty(), limit);
     }
 
     // 3 trục Slider x, y và z và dùng 3 giá trị này cập nhật tọa độ quay cho Box
-    public static Controller3d rotationAxis(Node n, double limit) {
+    public Controller3d rotationAxis(Node n, double limit) {
         Controller3d c = new Controller3d("\n\t\t\t\tRotation Axis Sliders", limit,
                 (d) -> {
-                    n.setRotationAxis(new Point3D(d[0],d[1],d[2]));
+                    n.setRotationAxis(new Point3D(d[0], d[1], d[2]));
                     return null;
                 }
         );
@@ -113,7 +114,7 @@ public class Controller3d extends VBox {
     }
 
     // Slider để quay box theo giá trị 3 trục
-    public static VBox rotation(Node n, double limit) {
+    public VBox rotation(Node n, double limit) {
         VBox c = new VBox();
         c.getChildren().add(new Label("\n\tRotation Slider"));
 
